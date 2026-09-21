@@ -1,11 +1,19 @@
 from traffic_io import read_records, write_summary, write_overspeed
-from traffic_stats import lane_statistics, count_by_type
+from traffic_stats import lane_statistics, count_by_type, average_speed_by_type
 from traffic_report import print_errors, print_lane_table, print_type_table
-from average_speed_by_type import average_speed_by_type
+import argparse
+import os
 
 def main():
-    input_path = "traffic_raw.csv"
-    speed_limit = 60
+
+    parser = argparse.ArgumentParser(description="traffic data analyzing tool")
+    parser.add_argument("input", help="raw data path")
+    parser.add_argument("--limit", type=float, default=60, help="speed limit")
+    parser.add_argument("output", help="output path")
+    args = parser.parse_args()
+    input_path = args.input
+    speed_limit = args.limit
+    os.makedirs(args.output, exist_ok=True)
 
     # 1. 读取
     records, errors = read_records(input_path)

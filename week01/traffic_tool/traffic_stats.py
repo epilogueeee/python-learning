@@ -1,4 +1,4 @@
-from traffic_io import read_records
+
 
 def group_by_lane(records: list) -> dict:
     """group by lane return {lane number: [all records of this lane]}"""
@@ -35,8 +35,21 @@ def count_by_type(records: list) -> dict:
         counts[vehicle_type] = counts.get(vehicle_type, 0) + 1
     return counts
 
+def average_speed_by_type(records: list) -> dict:
+    """return avrage speed of each type vehicle"""
+    result_speeds = {}
+    result = {}
+    for row in records:
+        vehicle_type = row["vehicle_type"]
+        speed = row["speed"]
+        result_speeds.setdefault(vehicle_type, []).append(speed)
+    for vehicle_type, speeds in result_speeds.items():
+        result[vehicle_type] = sum(speeds) / len(speeds)
+    return result
+
 if __name__ == "__name__":
 
+    from traffic_io import read_records
     data_path =r"C:\Users\HSC\PyLearning\python-learning\traffic_raw.csv"
     records = read_records(data_path)
 
