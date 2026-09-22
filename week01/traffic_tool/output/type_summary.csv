@@ -1,0 +1,4 @@
+vehicle_type,count,ratio_percent,avg_speed
+bus,14,28.0,47.8
+car,15,30.0,55.8
+truck,21,42.0,52.8

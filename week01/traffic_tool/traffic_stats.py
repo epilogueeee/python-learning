@@ -1,5 +1,3 @@
-
-
 def group_by_lane(records: list) -> dict:
     """group by lane return {lane number: [all records of this lane]}"""
     result = {}
@@ -46,6 +44,18 @@ def average_speed_by_type(records: list) -> dict:
     for vehicle_type, speeds in result_speeds.items():
         result[vehicle_type] = sum(speeds) / len(speeds)
     return result
+
+def flow_by_minute(records: list) -> dict:
+    """count vehicle number by minute, return {"8:30": 2, ...}"""
+    flow = {}
+    for record in records:
+        flow[record["time"][:5]] = flow.get(record["time"][:5], 0) + 1
+    return flow
+
+def find_peak_minute(flow: dict) -> tuple:
+    """return the max flow (time, number)"""
+    max_flow = max(flow.items(), key=lambda item: item[1])
+    return max_flow
 
 if __name__ == "__name__":
 

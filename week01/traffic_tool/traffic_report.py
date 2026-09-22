@@ -58,6 +58,13 @@ def print_overspeed_list(records: list, limit: float) -> None:
         print(f"{r['time']:<12}{r['lane']:>6}{r['vehicle_type']:>12}"
               f"{r['speed']:>9.1f}{over_by:>10.1f}")
 
+def print_flow_distribution(flow: dict, max_flow: tuple) -> None:
+    block = "\u2588"
+    for minute, number in flow.items():
+        if minute == max_flow[0]:
+            print(f"{minute} {block * number} {number} <- peak")
+        else:
+            print(f"{minute} {block * number} {number}")
 
 if __name__ == "__main__":
     
