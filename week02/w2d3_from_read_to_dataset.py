@@ -75,3 +75,40 @@ class TrafficDataset:
         for path in paths:
             records.extend(read_records(path))
         return cls(records)
+
+class BoundingBox:
+
+    def __init__(self, x1: float, y1: float, x2: float, y2: float, label: str = "", conf: float = 1.0):
+
+        if x1 > x2 or y1 > y2:
+            raise ValueError(f"box location incorrect")
+        if conf < 0 or conf > 1:
+            raise ValueError(f"conf incorrect")
+
+        self.x1 = x1
+        self.y1 = y1
+        self.x2 = x2
+        self.y2 = y2
+        self.label = label
+        self.conf = conf
+
+    @property
+    def width(self):
+        return self.x2 - self.x1
+
+    @property
+    def height(self):
+        return self.y2 - self.y1
+
+    @property
+    def area(self):
+        return self.width * self.height
+
+    @property
+    def center(self):
+        return self.x1 + self.width / 2, self.y1 + self.height / 2
+
+    @classmethod
+    def from_xywh(cls, x: float, y: float, w: float, h: float, **kwargs):
+        return cls(x - w / 2, y - h / 2, x + w / 2, y + h / 2, **kwargs)
+    
